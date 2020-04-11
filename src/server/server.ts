@@ -1,6 +1,7 @@
-import express from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import {ApolloServer} from 'apollo-server-express';
 import apolloPlayGround from 'graphql-playground-middleware-express';
+import HttpStatus from 'http-status-codes';
 
 import cors from 'cors';
 import logger from 'morgan';
@@ -20,7 +21,7 @@ const server = new ApolloServer({
 
 app.set('port', process.env.PORT || 3000);
 
-app.use('/assets', express.static(__dirname + 'public'));
+app.use('/assets', express.static('assets'));
 app.use(
   logger('dev', {
     // ログを出さない
@@ -42,5 +43,25 @@ app.use(
 
 server.applyMiddleware({app});
 app.get('/playground', apolloPlayGround({endpoint: '/graphql'}));
+
+/** 404 Error */
+app.use((req: Request, res: Response, next: NextFunction) => {
+  next({
+    statusCode: HttpStatus.NOT_FOUND,
+    message: HttpStatus.getStatusText(HttpStatus.NOT_FOUND),
+  });
+});
+
+/** Error Handling */
+app.use(
+  (
+    error: {statusCode: number; message: string},
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    res.status(error.statusCode).json(error);
+  }
+);
 
 export {app};
