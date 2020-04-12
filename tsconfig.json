@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "commonjs",
     "strict": true,
+    "skipLibCheck": true,
     "importHelpers": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
@@ -10,6 +11,7 @@
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {

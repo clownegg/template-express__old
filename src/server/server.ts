@@ -12,6 +12,8 @@ import {plugins} from '@/plugins';
 import {typeDefs} from '@/schemas';
 import {resolvers} from '@/resolvers';
 
+import {todoRoutes} from '@/routes';
+
 const app = express();
 const server = new ApolloServer({
   typeDefs,
@@ -21,6 +23,7 @@ const server = new ApolloServer({
 
 app.set('port', process.env.PORT || 3000);
 
+/** Middleware */
 app.use('/assets', express.static('assets'));
 app.use(
   logger('dev', {
@@ -43,6 +46,9 @@ app.use(
 
 server.applyMiddleware({app});
 app.get('/playground', apolloPlayGround({endpoint: '/graphql'}));
+
+// Routing
+app.use('/todos', todoRoutes);
 
 /** 404 Error */
 app.use((req: Request, res: Response, next: NextFunction) => {
