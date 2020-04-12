@@ -6,3 +6,6 @@ ncu:
 
 lint:
 	yarn lint --ext .js,.ts,.json src
+
+test:
+	yarn test

@@ -46,6 +46,9 @@ app.use(
 
 server.applyMiddleware({app});
 app.get('/playground', apolloPlayGround({endpoint: '/graphql'}));
+app.get('/health', (req: Request, res: Response, next: NextFunction) => {
+  res.json({statusCode: HttpStatus.OK, message: 'OK'});
+});
 
 // Routing
 app.use('/todos', todoRoutes);
